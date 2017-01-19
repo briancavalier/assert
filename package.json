@@ -14,7 +14,7 @@
   "scripts": {
     "commit": "northbrook commit",
     "test": "npm run test:lint && npm run test:unit && npm run test:flow",
-    "test:unit": "northbrook mocha",
+    "test:unit": "nyc northbrook mocha",
     "test:lint": "northbrook eslint",
     "test:flow": "flow check",
     "build": "npm run build:dist && npm run build:flow",
@@ -27,8 +27,15 @@
     "type": "git",
     "url": "https://github.com/briancavalier/assert"
   },
+  "nyc": {
+    "exclude": [
+      "*.js",
+      "test/**/*.js"
+    ]
+  },
   "devDependencies": {
     "@northbrook/eslint": "^2.0.1",
+    "@northbrook/mocha": "^3.1.0",
     "@northbrook/rollup": "^1.0.1",
     "babel-eslint": "^7.1.1",
     "buba": "^4.0.2",
@@ -43,7 +50,6 @@
     "rollup-plugin-node-resolve": "^2.0.0"
   },
   "dependencies": {
-    "@most/prelude": "^1.4.0",
-    "@northbrook/mocha": "^3.1.0"
+    "@most/prelude": "^1.4.0"
   }
 }
