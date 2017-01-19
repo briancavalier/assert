@@ -1,18 +1,18 @@
 // @flow
 
-export type Assertion = {
-  assert: () => boolean
-}
+export type Outcome<A> = { ok: true, value: A } | { ok: false, value: A }
+export type Assertion<A, B> = (A) => Outcome<B>
 
-declare export function fail (message: string): void
+declare export function ok (): Outcome<void>
+declare export function fail<A> (a: A): Outcome<A>
 
-declare export function assert (assertion: boolean | Assertion): boolean
+declare export function assert<A, B> (assertion: Assertion<A, B>, a: A): Outcome<B>
 
-declare export function eq<A> (expected: A, actual: A): Assertion
+declare export function eq<A, B> (expected: A): Assertion<A, B>
 
-declare export function or<A> (a1: Assertion, a2: Assertion): Assertion
+declare export function or<A, B> (a1: Assertion<A, B>, a2: Assertion<A, B>): Assertion<A, B>
 
-declare export function and<A> (a1: Assertion, a2: Assertion): Assertion
+declare export function and<A, B> (a1: Assertion<A, B>, a2: Assertion<A, B>): Assertion<A, B>
 
 declare export class AssertionError {
   constructor (message: string, stackTop: Function): this

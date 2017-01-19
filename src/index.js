@@ -3,51 +3,36 @@ import { curry2 } from '@most/prelude'
 
 export { AssertionError }
 
-export const fail = (message) => failAssert(assert, message)
-
-export const assert = assertion =>
-  typeof assertion === 'boolean'
-    ? assertion || failAssert(assert, 'assertion failed')
-    : assertion.assert()
-
-export const eq = curry2((expected, actual) => new Eq(expected, actual))
-
-class Eq {
-  constructor (expected, actual) {
-    this.expected = expected
-    this.actual = actual
-  }
-
-  assert () {
-    return this.expected === this.actual || fail(`eq(${this.expected}, ${this.actual})`)
+class Outcome {
+  constructor (ok, value) {
+    this.ok = ok
+    this.value = value
   }
 }
 
-export const or = curry2((a1, a2) => new Or(a1, a2))
+const OK = new Outcome(true, 'OK')
 
-class Or {
-  constructor (a1, a2) {
-    this.a1 = a1
-    this.a2 = a2
-  }
+const ok = () => OK
+const fail = (value) => new Outcome(false, value)
 
-  assert () {
-    return this.a1.assert() || this.a2.assert()
-  }
-}
+export const assert = curry2((assertion, value) =>
+  verify(assertion(value)))
 
-export const and = curry2((a1, a2) => new And(a1, a2))
+const verify = outcome =>
+  outcome.ok ? outcome : failAssert(assert, outcome.value)
 
-class And {
-  constructor (a1, a2) {
-    this.a1 = a1
-    this.a2 = a2
-  }
+export const eq = expected =>
+  actual => expected === actual ? ok() : fail(`eq(${expected}, ${actual})`)
 
-  assert () {
-    return this.a1.assert() && this.a2.assert()
-  }
-}
+export const or = curry2((a1, a2) =>
+  actual => _or(a1(actual), a2, actual))
+
+const _or = (o1, a2, actual) => o1.ok ? o1 : a2(actual)
+
+export const and = curry2((a1, a2) =>
+  actual => _and(a1(actual), a2, actual))
+
+const _and = (o1, a2, actual) => o1.ok ? a2(actual) : o1
 
 const failAssert = (stackTop, msg) => {
   throw new AssertionError(msg, stackTop)
