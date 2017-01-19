@@ -1,8 +1,7 @@
 // @flow
-import { assert, assertThat } from '../../src/index'
+import { assert, eq } from '../../src/index'
 
 assert(true)
 assert(false)
 
-assertThat('test', true)
-assertThat('test', false)
+assert(eq(1, 2))

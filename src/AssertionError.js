@@ -1,6 +1,7 @@
 export class AssertionError extends Error {
   constructor (message, stackTop) {
     super(message)
+    this.name = this.constructor.name
     this.message = message
     captureStack(this, stackTop)
   }

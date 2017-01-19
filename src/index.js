@@ -1,16 +1,55 @@
-import { curry2 } from '@most/prelude'
 import { AssertionError } from './AssertionError'
+import { curry2 } from '@most/prelude'
 
 export { AssertionError }
 
-export const assert = b => verify(assert, 'assertion failed', b)
+export const fail = (message) => failAssert(assert, message)
 
-export const assertThat = curry2((message, b) => verify(assertThat, message, b))
+export const assert = assertion =>
+  typeof assertion === 'boolean'
+    ? assertion || failAssert(assert, 'assertion failed')
+    : assertion.assert()
 
-const verify = (stackTop, msg, b) =>
-  b || fail(msg, stackTop)
+export const eq = curry2((expected, actual) => new Eq(expected, actual))
 
-const fail = (msg, stackTop) => {
+class Eq {
+  constructor (expected, actual) {
+    this.expected = expected
+    this.actual = actual
+  }
+
+  assert () {
+    return this.expected === this.actual || fail(`eq(${this.expected}, ${this.actual})`)
+  }
+}
+
+export const or = curry2((a1, a2) => new Or(a1, a2))
+
+class Or {
+  constructor (a1, a2) {
+    this.a1 = a1
+    this.a2 = a2
+  }
+
+  assert () {
+    return this.a1.assert() || this.a2.assert()
+  }
+}
+
+export const and = curry2((a1, a2) => new And(a1, a2))
+
+class And {
+  constructor (a1, a2) {
+    this.a1 = a1
+    this.a2 = a2
+  }
+
+  assert () {
+    return this.a1.assert() && this.a2.assert()
+  }
+}
+
+const failAssert = (stackTop, msg) => {
   throw new AssertionError(msg, stackTop)
 }
 

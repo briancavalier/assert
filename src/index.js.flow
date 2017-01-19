@@ -1,8 +1,18 @@
 // @flow
 
-declare export function assert(b: boolean): boolean
+export type Assertion = {
+  assert: () => boolean
+}
 
-declare export function assertThat(message: string, b: boolean): boolean
+declare export function fail (message: string): void
+
+declare export function assert (assertion: boolean | Assertion): boolean
+
+declare export function eq<A> (expected: A, actual: A): Assertion
+
+declare export function or<A> (a1: Assertion, a2: Assertion): Assertion
+
+declare export function and<A> (a1: Assertion, a2: Assertion): Assertion
 
 declare export class AssertionError {
   constructor (message: string, stackTop: Function): this
