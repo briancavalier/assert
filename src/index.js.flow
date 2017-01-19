@@ -1,0 +1,10 @@
+// @flow
+
+declare export function assert(b: boolean): boolean
+
+declare export function assertThat(message: string, b: boolean): boolean
+
+declare export class AssertionError {
+  constructor (message: string, stackTop: Function): this
+}
+
