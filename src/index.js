@@ -1,16 +1,21 @@
 import { curry2 } from '@most/prelude'
 import { AssertionError } from './AssertionError'
-
 export { AssertionError }
 
-export const assert = b => verify(assert, 'assertion failed', b)
+// Assert expected === actual.
+// If so, return actual, otherwise throw AssertionError
+export const eq = curry2((expected, actual) =>
+  expected === actual
+    ? actual
+    : fail(`${expected} !== ${actual}`))
 
-export const assertThat = curry2((message, b) => verify(assertThat, message, b))
+// Assert b is true.
+// If so, return b, otherwise throw AssertionError
+export const assert = eq(true)
 
-const verify = (stackTop, msg, b) =>
-  b || fail(msg, stackTop)
-
-const fail = (msg, stackTop) => {
-  throw new AssertionError(msg, stackTop)
+// Throw an AssertionError with a stack trace that ends at
+// the provided stackTop function, and the provided message.
+// Useful for implementing new assertions.
+export const fail = message => {
+  throw new AssertionError(message, '@most/prelude')
 }
-

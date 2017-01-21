@@ -1,8 +1,7 @@
 module.exports = {
   mocha: {
     patterns: [
-      'test/unit/**/*.js',
-      '!test/flow/**/*.*',
+      'test/**/*-test.js'
     ]
   }
 }

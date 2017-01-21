@@ -1,7 +1,6 @@
 [ignore]
 
 [include]
-test/flow/**/*.js
 dist/.*\.flow
 
 [libs]
