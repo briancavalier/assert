@@ -1,3 +1,11 @@
+# 3.0.0 (2017-01-22)
+---
+
+## Breaking Changes
+
+1. eq() now does value equivalence, rather than referential equality
+  - feat(assert): Make eq() value equivalence, is() referential equality [e36f910f](/commits/e36f910fcb1572171e86cb4d85ca51764e186af7)
+
 # 1.0.0 (2017-01-20)
 ---
 
