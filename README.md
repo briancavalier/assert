@@ -85,7 +85,7 @@ assert(1) //> AssertionError (1 !== true)
 
 ### throws :: (a &rarr; *) &rarr; e
 
-Assert that a function throws.  If so, return the thrown value, otherwise throw AssertionError.  Compose
+Assert that a function throws.  If so, return the thrown value, otherwise throw AssertionError.
 
 ```js
 throws(() => { throw new Error('oops') }) //> *returns* Error: oops
