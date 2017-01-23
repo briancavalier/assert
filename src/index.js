@@ -1,6 +1,6 @@
 import { curry2 } from '@most/prelude'
 import { AssertionError } from './AssertionError'
-import isEqual from 'lodash.isequal'
+import { default as isEqual } from 'lodash-es/isEqual'
 export { AssertionError }
 
 // Value equality: assert structural equivalence
