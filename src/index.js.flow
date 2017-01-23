@@ -1,11 +1,14 @@
 // @flow
-declare export function assert (b: boolean): boolean
-
 declare export function eq<A> (expected: A, actual: A): A
 declare export function eq<A> (expected: A): (actual: A) => A
+
+declare export function is<A> (expected: A, actual: A): A
+declare export function is<A> (expected: A): (actual: A) => A
+
+declare export function assert (b: boolean): boolean
 
 declare export function fail (message: string): void
 
 declare export class AssertionError {
-  constructor (message: string, stackTop: Function): this
+  constructor (message: string): this
 }

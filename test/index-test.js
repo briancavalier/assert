@@ -1,30 +1,54 @@
 import { describe, it } from 'mocha'
-import { fail, eq, assert, AssertionError } from '../src/index'
+import { eq, is, assert, AssertionError, fail, failAt } from '..'
 
-describe('fail', () => {
-  it('should throw AssertionError with message', () => {
-    const message = `${Math.random()}`
-    try {
-      fail(message)
-    } catch(e) {
-      assertIsAssertionError(e)
-      eq(message, e.message)
-    }
+describe('eq', () => {
+  it('should pass for equal primitives', () => {
+    eq(1, eq(1, 1))
+    eq(0, eq(0, 0))
+    eq(-0, eq(-0, -0))
+    eq(0, eq(-0, 0))
+    eq('1', eq('1', '1'))
+    eq(true, eq(true, true))
+    eq(false, eq(false, false))
+  })
+
+  it('should fail for non-equal primitives', () => {
+    throwsAssertionError(eq(1), 0)
+    throwsAssertionError(eq('1'), '0')
+    throwsAssertionError(eq(true), false)
+  })
+
+  const a1 = { value: 'a' }
+  const a2 = { value: 'a'}
+  const b = { value: 'b' }
+  const c = {}
+  const d = { value: 'd', extra: 'test' }
+
+  it('should pass for equivalent objects', () => {
+    eq(a1, eq(a1, a1))
+    eq(a1, eq(a1, a2))
+    eq(a1, eq(a1)(a2))
+  })
+
+  it('should fail for non-equivalent objects', () => {
+    throwsAssertionError(eq(a1), b)
+    throwsAssertionError(eq(a1), c)
+    throwsAssertionError(eq(a1), d)
   })
 })
 
-describe('eq', () => {
+describe('is', () => {
   const a = {}
 
-  it('should pass when strictly equal', () => {
-    eq(a, eq(a, a))
-    eq(a, eq(a)(a))
+  it('should pass for strictly equal', () => {
+    is(a, is(a, a))
+    is(a, is(a)(a))
   })
 
-  it('should throw AssertionError for not equal', () => {
-    throwsAssertionError(eq(1), 2)
-    throwsAssertionError(eq(1), '1')
-    throwsAssertionError(eq({}), {})
+  it('should fail for not equal', () => {
+    throwsAssertionError(is(1), 2)
+    throwsAssertionError(is(1), '1')
+    throwsAssertionError(is({}), {})
   })
 })
 
@@ -33,8 +57,49 @@ describe('assert', () => {
     assert(true)
   })
 
-  it('should throw AssertionError for false', () => {
+  it('should fail for truthy', () => {
+    throwsAssertionError(assert, 1)
+    throwsAssertionError(assert, 'true')
+    throwsAssertionError(assert, {})
+    throwsAssertionError(assert, [])
+  })
+
+  it('should fail for false and falsy', () => {
     throwsAssertionError(assert, false)
+    throwsAssertionError(assert, 0)
+    throwsAssertionError(assert, '')
+    throwsAssertionError(assert, null)
+    throwsAssertionError(assert, undefined)
+  })
+})
+
+describe('fail', () => {
+  it('should fail with message', () => {
+    const message = `${Math.random()}`
+    try {
+      fail(message)
+      fail('Expected AssertionError')
+    } catch(e) {
+      assertIsAssertionError(e)
+      eq(message, e.message)
+    }
+  })
+})
+
+describe('failAt', () => {
+  it('should fail with message', () => {
+    const message = `${Math.random()}`
+    function test (message) {
+      failAt(test, message)
+    }
+
+    try {
+      test(message)
+      fail('Expected AssertionError')
+    } catch(e) {
+      assertIsAssertionError(e)
+      eq(message, e.message)
+    }
   })
 })
 
