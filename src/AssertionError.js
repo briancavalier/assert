@@ -3,11 +3,6 @@ export class AssertionError extends Error {
     super(message)
     this.name = 'AssertionError'
     this.message = message
-
-    /* istanbul ignore else */
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this)
-    }
   }
 }
 
