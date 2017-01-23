@@ -1,6 +1,6 @@
 # assert
 
-Composable, Strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
+Composable, strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
 
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
@@ -30,7 +30,17 @@ yarn add --dev @briancavalier/assert
 
 ## API
 
-All functions are curried.
+All functions with arity > 1 are curried, and can be partially.  This makes for compact and convenient assertions:
+ 
+```js
+// Assert that a promise fulfills with 123 by
+// partially applying eq()
+const eq123 = eq(123)
+promise.then(eq123)
+
+// Or simply:
+promise.then(eq(123))
+```
 
 ### eq :: a &rarr; a &rarr; a
 
