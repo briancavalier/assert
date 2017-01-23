@@ -7,7 +7,7 @@ declare export function is<A> (expected: A): (actual: A) => A
 
 declare export function assert (b: boolean): boolean
 
-declare export function throws <E> (f: () => any): E
+declare export function throws <E: Error> (f: () => any): E
 
 declare export function fail (message: string): void
 

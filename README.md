@@ -30,7 +30,7 @@ yarn add --dev @briancavalier/assert
 
 ## API
 
-All functions with arity > 1 are curried, and can be partially.  This makes for compact and convenient assertions:
+All functions with arity > 1 are curried, and can be partially applied.  This makes for compact and convenient assertions:
  
 ```js
 // Assert that a promise fulfills with 123 by
