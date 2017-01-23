@@ -1,6 +1,6 @@
 # assert
 
-Strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
+Composable, Strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
 
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
@@ -71,6 +71,41 @@ assert(1 === 1) //> true
 assert(false) //> AssertionError
 assert(1 === '1') //> AssertionError
 assert(1) //> AssertionError (1 !== true)
+```
+
+### throws :: (a &rarr; *) &rarr; e
+
+Assert that a function throws.  If so, return the thrown value, otherwise throw AssertionError.  Compose
+
+```js
+throws(() => { throw new Error('oops') }) //> *returns* Error: oops
+
+throws(() => {}) //> *throws* AssertionError
+```
+
+Make assertions on the thrown value via composition:
+
+```js
+// Import your favorite function composition lib
+import { pipe } from 'ramda'
+import { is, throws } from '@briancavalier/assert'
+
+const expectedError = new Error('expected')
+
+// Compose new assertion that a function throws expectedError
+const throwsExpected = pipe(throws, is(expectedError))
+
+const f = () => {
+  throw expectedError
+}
+
+throwsExpected(f) //> PASS, returns expectedError
+
+const g = () => {
+  throw new Error('this should fail')
+}
+
+throwsExpected(g) //> FAIL, throws AssertionError
 ```
 
 ### fail :: string &rarr; void

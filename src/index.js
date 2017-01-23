@@ -21,6 +21,18 @@ export const is = curry2((expected, actual) =>
 // If so, return b, otherwise throw AssertionError
 export const assert = is(true)
 
+// Assert f throws. If so, return the thrown value,
+// otherwise throw AssertionError.
+export const throws = f => {
+  let x
+  try {
+    x = f()
+  } catch (e) {
+    return e
+  }
+  fail(`did not throw, returned ${x}`)
+}
+
 // Throw an AssertionError with the provided message.
 // Useful for implementing new assertions.
 export const fail = message =>
