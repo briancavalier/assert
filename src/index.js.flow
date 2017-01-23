@@ -8,7 +8,6 @@ declare export function is<A> (expected: A): (actual: A) => A
 declare export function assert (b: boolean): boolean
 
 declare export function fail (message: string): void
-declare export function failAt (fn: Function, message: string): void
 
 declare export class AssertionError {
   constructor (message: string): this
