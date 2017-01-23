@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.js"],
+  "include": ["dist/*.js"],
   "lines": 100,
   "statements": 100,
   "functions": 100
