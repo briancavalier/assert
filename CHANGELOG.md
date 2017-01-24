@@ -1,3 +1,11 @@
+# 3.1.0 (2017-01-23)
+---
+
+## Features
+
+- feat(assert): Capture expected and actual values in AssertionError (#4) [aa0e43ff](/commits/aa0e43ffc17ecbeb7847e491722b83df66e8f951)
+- feat(throws): Add throws(), composable assertion that a function throws (#3) [56417411](/commits/5641741130e5a1b06bab17ed63ab15ff1909fe81)
+
 # 3.0.0 (2017-01-22)
 ---
 
