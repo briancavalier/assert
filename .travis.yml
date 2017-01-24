@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 cache: yarn
+script: yarn ci
 node_js:
   - "7"
   - "6"
