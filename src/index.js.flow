@@ -11,6 +11,6 @@ declare export function throws <E: Error> (f: () => any): E
 
 declare export function fail (message: string): void
 
-declare export class AssertionError {
-  constructor (message: string): this
+declare export class AssertionError<A, B> {
+  constructor (message: string, expected?: A, actual?: B, fn?: Function): this
 }

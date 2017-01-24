@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import { eq, assert, AssertionError } from '..'
+import { eq, is, assert, AssertionError } from '..'
 
 describe('AssertionError', () => {
   it('should be an Error', () => {
@@ -10,8 +10,15 @@ describe('AssertionError', () => {
     eq('AssertionError', new AssertionError('').name)
   })
 
-  it('should have expected message', () => {
+  it('should have expected message, expected, actual', () => {
     const message = `${Math.random()}`
-    eq(message, new AssertionError(message).message)
+    const expected = {}
+    const actual = {}
+
+    const e = new AssertionError(message, expected, actual)
+
+    eq(message, e.message)
+    is(expected, e.expected)
+    is(actual, e.actual)
   })
 })
