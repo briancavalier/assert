@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import { eq, is, assert, AssertionError, fail, failAt } from '..'
+import { eq, is, assert, throws, fail, failAt, AssertionError } from '..'
 
 describe('eq', () => {
   it('should pass for equal primitives', () => {
@@ -70,6 +70,17 @@ describe('assert', () => {
     throwsAssertionError(assert, '')
     throwsAssertionError(assert, null)
     throwsAssertionError(assert, undefined)
+  })
+})
+
+describe('throws', () => {
+  it('should pass when f throws', () => {
+    const e = new Error()
+    is(e, throws(() => { throw e }))
+  })
+
+  it('should fail when f returns', () => {
+    throwsAssertionError(throws, () => {})
   })
 })
 

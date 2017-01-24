@@ -1,6 +1,6 @@
 # assert
 
-Strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
+Composable, strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
 
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
@@ -30,7 +30,17 @@ yarn add --dev @briancavalier/assert
 
 ## API
 
-All functions are curried.
+All functions with arity > 1 are curried, and can be partially applied.  This makes for compact and convenient assertions:
+ 
+```js
+// Assert that a promise fulfills with 123 by
+// partially applying eq()
+const eq123 = eq(123)
+promise.then(eq123)
+
+// Or simply:
+promise.then(eq(123))
+```
 
 ### eq :: a &rarr; a &rarr; a
 
@@ -71,6 +81,41 @@ assert(1 === 1) //> true
 assert(false) //> AssertionError
 assert(1 === '1') //> AssertionError
 assert(1) //> AssertionError (1 !== true)
+```
+
+### throws :: (Error e) &rArr; (() &rarr; *) &rarr; e
+
+Assert that a function throws.  If so, return the thrown value, otherwise throw AssertionError.
+
+```js
+throws(() => { throw new Error('oops') }) //> *returns* Error: oops
+
+throws(() => {}) //> *throws* AssertionError
+```
+
+Make assertions on the thrown value via composition:
+
+```js
+// Import your favorite function composition lib
+import { pipe } from 'ramda'
+import { is, throws } from '@briancavalier/assert'
+
+const expectedError = new Error('expected')
+
+// Compose new assertion that a function throws expectedError
+const throwsExpected = pipe(throws, is(expectedError))
+
+const f = () => {
+  throw expectedError
+}
+
+throwsExpected(f) //> PASS, returns expectedError
+
+const g = () => {
+  throw new Error('this should fail')
+}
+
+throwsExpected(g) //> FAIL, throws AssertionError
 ```
 
 ### fail :: string &rarr; void
