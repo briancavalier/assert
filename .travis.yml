@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 cache: yarn
+script: yarn ci
 node_js:
   - "7"
   - "6"
@@ -10,4 +11,3 @@ env:
 branches:
   only:
     - master
-before_install: if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi

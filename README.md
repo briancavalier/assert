@@ -58,7 +58,7 @@ eq({ a: 'a' }, { a: 'b' }) //> AssertionError
 eq([{ a: 'a' }, { b: 'b' }], [{ a: 'a' }, { b: 'b'}]) //> AssertionError
 ```
 
-### is :: a &rarr; a &rarr& a
+### is :: a &rarr; a &rarr; a
 
 Assert _referential equivalence_.  Compares args by `===`.  Returns the second arg if the two values are `===`, otherwise throws AssertionError.
 

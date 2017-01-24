@@ -54,7 +54,7 @@ describe('is', () => {
 
 describe('assert', () => {
   it('should pass for true', () => {
-    assert(true)
+    assert(assert(true))
   })
 
   it('should fail for truthy', () => {

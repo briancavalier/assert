@@ -10,6 +10,6 @@ export function throws <E extends Error> (f: () => any): E
 
 export function fail (message: string): never
 
-export class AssertionError extends Error {
-  constructor (message: string)
+export class AssertionError<A, B> extends Error {
+  constructor (message: string, expected?: A, actual?: B, fn?: Function)
 }

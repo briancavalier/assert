@@ -17,6 +17,8 @@
     "test:unit": "nyc -s northbrook mocha",
     "test:lint": "northbrook eslint",
     "test:flow": "flow check",
+    "test:report": "nyc report",
+    "ci": "npm run test:lint && npm run test:unit && npm run test:flow && npm run test:report",
     "build": "npm run build:dist && npm run build:flow && npm run build:ts",
     "build:dist": "northbrook rollup",
     "build:flow": "cpy src/index.js.flow dist && cpy src/index.js.flow dist --rename=index.es.js.flow",
