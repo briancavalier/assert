@@ -5,12 +5,18 @@ Composable, strongly typed, curried test assertions. Use with any test framework
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
 
-it('should be true', () => {
-  assert(true)
+it('should be equal', () => {
+  eq(123, 123)
+  eq({ value: 'a' }, { value: 'a' })
 })
 
-it('should be equal', () => {
-  is(123, 123)
+it('should be the same reference', () => {
+  const a = {}
+  is(a, a)
+})
+
+it('should be true', () => {
+  assert(true)
 })
 
 it('should eventually be equivalent via partial application', () => {
