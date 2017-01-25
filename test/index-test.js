@@ -1,5 +1,6 @@
 import { describe, it } from 'mocha'
-import { eq, is, assert, throws, fail, failAt, AssertionError } from '..'
+import { eq, is, assert, throws, fail, failAt } from '../src/index'
+import { AssertionError } from '../src/AssertionError'
 
 describe('eq', () => {
   it('should pass for equal primitives', () => {

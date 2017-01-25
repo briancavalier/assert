@@ -1,5 +1,6 @@
 import { describe, it } from 'mocha'
-import { eq, is, assert, AssertionError } from '..'
+import { eq, is, assert } from '../src/index'
+import { AssertionError } from '../src/AssertionError'
 
 describe('AssertionError', () => {
   it('should be an Error', () => {

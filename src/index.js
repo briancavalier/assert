@@ -1,6 +1,7 @@
 import { curry2 } from '@most/prelude'
 import { AssertionError } from './AssertionError'
-import { default as isEqual } from 'lodash-es/isEqual'
+import isEqual from 'lodash.isequal'
+import inspect from 'object-inspect'
 export { AssertionError }
 
 // Value equality: assert structural equivalence
@@ -8,19 +9,19 @@ export { AssertionError }
 export const eq = curry2((expected, actual) =>
   isEqual(expected, actual)
     ? actual
-    : fail2(`eq(${expected}, ${actual})`, expected, actual))
+    : fail2(`not equivalent: eq(${inspect2(expected, actual)})`, expected, actual))
 
 // Referential equality: assert expected === actual.
 // If so, return actual, otherwise throw AssertionError
 export const is = curry2((expected, actual) =>
   expected === actual
     ? actual
-    : fail2(`${expected} === ${actual}`, expected, actual))
+    : fail2(`not same reference: is(${inspect2(expected, actual)})`, expected, actual))
 
 // Assert b is true.
 // If so, return b, otherwise throw AssertionError
 export const assert = b =>
-  b === true || fail1('assertion failed', b)
+  b === true || fail1(`not strictly true: assert(${inspect(b)})`, b)
 
 // Assert f throws. If so, return the thrown value,
 // otherwise throw AssertionError.
@@ -31,7 +32,7 @@ export const throws = f => {
   } catch (e) {
     return e
   }
-  fail1(`did not throw, returned ${x}`, x)
+  fail1(`did not throw, returned: ${inspect(x)}`, x)
 }
 
 // Throw an AssertionError with the provided value, which
@@ -55,3 +56,6 @@ const fail2 = (message, expected, actual) =>
 export const failAt = (fn, message, expected, actual) => {
   throw new AssertionError(message, expected, actual, fn)
 }
+
+// Inspect both values and join into string
+const inspect2 = (a, b) => `${inspect(a)}, ${inspect(b)}`

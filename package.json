@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "commit": "northbrook commit",
-    "test": "npm run test:lint && npm run build:dist && npm run test:unit && npm run test:flow",
+    "test": "npm run test:lint && npm run test:unit && npm run test:flow",
     "test:unit": "nyc -s northbrook mocha",
     "test:lint": "northbrook eslint",
     "test:flow": "flow check",
@@ -46,10 +46,12 @@
     "nyc": "^10.1.2",
     "rollup": "^0.41.4",
     "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-node-resolve": "^2.0.0"
   },
   "dependencies": {
     "@most/prelude": "^1.4.1",
-    "lodash-es": "^4.17.4"
+    "lodash.isequal": "^4.5.0",
+    "object-inspect": "^1.2.1"
   }
 }
