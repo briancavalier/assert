@@ -1,3 +1,11 @@
+# 3.2.0 (2017-01-25)
+---
+
+## Features
+
+- feat(assert): Improve error messages using object-inspect and leading hints (#6) [24c0b4a0](/commits/24c0b4a0b58e70dc1313524064da817176026b3d)
+- feat(fail): Parameterize fail arg type, coerce to string internally [9ff47d2e](/commits/9ff47d2e5e975cf0181dfda6a2a498a29ad780ff)
+
 # 3.1.0 (2017-01-23)
 ---
 
