@@ -1,29 +1,25 @@
 # assert
 
-Composable, strongly typed, curried test assertions. Use with any test framework that understands assertions that throw.
+Composable, strongly typed, curried test assertions. Use with any test framework that understands assertions that throw, like [Mocha](https://mochajs.org).
 
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
 
-it('should be equal', () => {
-  eq(123, 123)
-  eq({ value: 'a' }, { value: 'a' })
-})
+// eq - value equality
+eq(1, 1) // simple values
+eq({ value: 'a' }, { value: 'a' }) // deep values
+Promise.resolve(1).then(eq(1)) // curried
 
-it('should be the same reference', () => {
-  const a = {}
-  is(a, a)
-})
+// is - reference equality
+const a = {}
+is(a, a) // same reference
+is({}, {}) // AssertionError: not same reference
+Promise.resolve(a).then(is(a)) // curried
 
-it('should be true', () => {
-  assert(true)
-})
-
-it('should eventually be equivalent via partial application', () => {
-  const expected = { name: 'Abe' }
-  return Promise.resolve({ name: 'Abe' })
-    .then(eq(expected))
-})
+// assert - strictly boolean expression
+assert(true)
+assert(typeof 123 === 'number')
+assert(1) // AssertionError: not strictly true
 ```
 
 ## Get it
