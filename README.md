@@ -118,9 +118,9 @@ const g = () => {
 throwsExpected(g) //> FAIL, throws AssertionError
 ```
 
-### fail :: string &rarr; void
+### fail :: a &rarr; void
 
-Throw an `AssertionError` with the provided message. Useful for implementing new assertions.
+Throw an `AssertionError` with the provided message, which will be coerced to a string and used as the error message. Useful for implementing new assertions.
 
 ```js
 fail('FAIL') //> AssertionError: FAIL
@@ -131,5 +131,5 @@ fail('FAIL') //> AssertionError: FAIL
 Assertions throw AssertionError to indicate failure.  Typically, you should use `fail` instead of constructing an `AssertionError` directly. 
 
 ```js
-const e = new AssertionError('')
+const e = new AssertionError('FAIL', expected, actual)
 ```
