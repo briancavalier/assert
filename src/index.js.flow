@@ -1,4 +1,15 @@
 // @flow
+export type Predicate<A> = (A) => boolean
+export type Predicate2<A, B> = (A, B) => boolean
+
+declare export function where<A> (p: Predicate<A>, a: A): A
+declare export function where<A> (p: Predicate<A>): (a: A) => A
+
+declare export function where2<A, B> (p: Predicate2<A, B>, a: A, b: B): A
+declare export function where2<A, B> (p: Predicate2<A, B>): (a: A, b: B) => A
+declare export function where2<A, B> (p: Predicate2<A, B>, a: A): (b: B) => A
+declare export function where2<A, B> (p: Predicate2<A, B>): (a: A) => (b: B) => A
+
 declare export function eq<A> (expected: A, actual: A): A
 declare export function eq<A> (expected: A): (actual: A) => A
 

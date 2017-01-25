@@ -1,27 +1,40 @@
-import { curry2, id } from '@most/prelude'
+import { curry2, curry3, id } from '@most/prelude'
 import { AssertionError } from './AssertionError'
 import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'
 export { AssertionError }
 
+const sameRef = (a, b) => a === b
+
+const _where = curry3((m, p, a) =>
+  p(a) === true ? a
+    : fail1(_where, `${m}${inspectPredicate(p)}(${inspect(a)})`, a))
+
+const _where2 = curry4((m, p2, a, b) =>
+  p2(a, b) === true ? b
+    : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b))
+
+// Assert a unary boolean predicate holds
+// Given a predicate p, return an assertion that passes if
+// p(a) holds, and throws AssertionError otherwise
+export const where = _where('failed: ')
+
+// Assert a binary boolean predicate holds
+// Given a predicate p2, return an assertion that passes if
+// p2(a, b) holds, and throws AssertionError otherwise
+export const where2 = _where2('failed: ')
+
 // Value equality: assert structural equivalence
 // If so, return actual, otherwise throw AssertionError
-export const eq = curry2((expected, actual) =>
-  isEqual(expected, actual)
-    ? actual
-    : fail2(`not equivalent: eq(${inspect2(expected, actual)})`, expected, actual))
+export const eq = _where2('not equal: ', isEqual)
 
 // Referential equality: assert expected === actual.
 // If so, return actual, otherwise throw AssertionError
-export const is = curry2((expected, actual) =>
-  expected === actual
-    ? actual
-    : fail2(`not same reference: is(${inspect2(expected, actual)})`, expected, actual))
+export const is = _where2('not same reference: ', sameRef)
 
 // Assert b is true.
 // If so, return b, otherwise throw AssertionError
-export const assert = b =>
-  b === true || fail1(`not strictly true: assert(${inspect(b)})`, b)
+export const assert = _where('not true: ', id)
 
 // Assert f throws. If so, return the thrown value,
 // otherwise throw AssertionError.
@@ -59,6 +72,8 @@ const fail1 = (message, actual) =>
 const fail2 = (message, expected, actual) =>
   failAt(fail2, message, expected, actual)
 
+// Throw an AssertionError with the provided message, expected,
+// and actual values.
 // Throw an AssertionError with the provided message.
 // On v8, the call stack will be trimmed at the provided
 // function.
@@ -68,3 +83,6 @@ export const failAt = (fn, message, expected, actual) => {
 
 // Inspect both values and join into string
 const inspect2 = (a, b) => `${inspect(a)}, ${inspect(b)}`
+
+// Try not very hard to return a string representing a predicate
+const inspectPredicate = f => f === sameRef ? 'is' : f === isEqual ? 'eq' : f.name || ''
