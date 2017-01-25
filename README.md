@@ -2,6 +2,8 @@
 
 Composable, strongly typed, curried test assertions. Use with any test framework that understands assertions that throw, like [Mocha](https://mochajs.org).
 
+A few simple examples. See the [API docs](#API) for more.
+
 ```js
 import { eq, is, assert } from '@briancavalier/assert'
 
@@ -18,7 +20,7 @@ Promise.resolve(a).then(is(a)) // curried
 
 // assert - strictly boolean expression
 assert(true)
-assert(typeof 123 === 'number')
+assert(typeof 1 === 'number')
 assert(1) // AssertionError: not strictly true
 ```
 
@@ -104,20 +106,9 @@ import { is, throws } from '@briancavalier/assert'
 
 const expectedError = new Error('expected')
 
-// Compose new assertion that a function throws expectedError
 const throwsExpected = pipe(throws, is(expectedError))
-
-const f = () => {
-  throw expectedError
-}
-
-throwsExpected(f) //> PASS, returns expectedError
-
-const g = () => {
-  throw new Error('this should fail')
-}
-
-throwsExpected(g) //> FAIL, throws AssertionError
+throwsExpected(() => { throw expectedError }) //> returns expectedError
+throwsExpected(() => { throw new Error() }) //> throws AssertionError: not same reference 
 ```
 
 ### fail :: a &rarr; void
