@@ -1,4 +1,4 @@
-import { curry2 } from '@most/prelude'
+import { curry2, id } from '@most/prelude'
 import { AssertionError } from './AssertionError'
 import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'
@@ -34,6 +34,15 @@ export const throws = f => {
   }
   fail1(`did not throw, returned: ${inspect(x)}`, x)
 }
+
+// Assert p rejects.  Return a promise that rejects if p fulfills,
+// and fulfills with p rejects.
+export const rejects = p =>
+  p.then(failRejects, id)
+
+// Throw an assertion error that describes a rejects failure
+const failRejects = x =>
+  failAt(rejects, `did not reject, fulfilled: ${inspect(x)}`, undefined, x)
 
 // Throw an AssertionError with the provided value, which
 // will be coerced to a string and used as the failure message.

@@ -111,6 +111,37 @@ throwsExpected(() => { throw expectedError }) //> returns expectedError
 throwsExpected(() => { throw new Error() }) //> throws AssertionError: not same reference 
 ```
 
+### rejects :: Promise e a &rarr; Promise (AssertionError a) e
+
+Assert that a promise rejects.  in the same way `throws` "inverts" the throw/return outcome of a promise, `rejects` inverts the fate of a promise:
+
+- Given a promise that rejects with `e`, returns a promise that fulfills with `e`.
+- Given a promise that fulfills with `a`, returns a promise that rejects with an `AssertionError` whose `actual` value is `a`
+
+```js
+rejects(Promise.reject(e)) // fulfilled: e
+rejects(Promise.resolve()) // rejected: AssertionError
+```
+
+It's simple to verify rejected promises using a test framework that allows returning promises:
+
+```js
+import { rejects, is } from '@briancavalier/assert'
+
+it('rejects', () => {
+  return rejects(Promise.reject(new Error()))
+})
+
+// Combine with other assertions, like `is`, to verify
+// the rejection value.  For example:
+it('rejects with expectedError', () => {
+  const expectedError = new Error()
+  const p = Promise.reject(expectedError)
+  return rejects(p)
+    .then(is(expectedError))
+})
+```
+
 ### fail :: a &rarr; void
 
 Throw an `AssertionError` with the provided message, which will be coerced to a string and used as the error message. Useful for implementing new assertions.
