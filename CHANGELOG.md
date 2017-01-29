@@ -1,3 +1,10 @@
+# 3.3.1 (2017-01-29)
+---
+
+## Bug Fixes
+
+- fix(rejects): Add types for rejects() (#9) [208ad5aa](/commits/208ad5aad5556bf9e571ca1dce1cd54d24524970)
+
 # 3.3.0 (2017-01-29)
 ---
 
