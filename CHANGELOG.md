@@ -1,3 +1,10 @@
+# 3.3.0 (2017-01-29)
+---
+
+## Features
+
+- feat(rejects): Add rejects, for verifying rejected promises (#8) [9e13c2d7](/commits/9e13c2d7f2d10f53a9a26c709dfa5b5519abe3fb)
+
 # 3.2.0 (2017-01-25)
 ---
 
