@@ -8,6 +8,8 @@ export function assert (b: boolean): boolean
 
 export function throws<E extends Error> (f: () => any): E
 
+export function rejects<A, E extends Error> (p: Promise<A>): Promise<E>
+
 export function fail<A> (message: A): never
 
 export class AssertionError<A, B> extends Error {
