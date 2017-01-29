@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha'
-import { eq, is, assert, throws, fail, failAt } from '../src/index'
+import { eq, is, assert, throws, rejects, fail, failAt } from '../src/index'
 import { AssertionError } from '../src/AssertionError'
 
 describe('eq', () => {
@@ -82,6 +82,19 @@ describe('throws', () => {
 
   it('should fail when f returns', () => {
     throwsAssertionError(throws, () => {})
+  })
+})
+
+describe('rejects', () => {
+  it('should pass when p rejects', () => {
+    const expected = new Error()
+    return rejects(Promise.reject(expected))
+      .then(is(expected))
+  })
+
+  it('should fail when p fulfills', () => {
+    return rejects(rejects(Promise.resolve()))
+      .then(e => assert(e instanceof AssertionError))
   })
 })
 
