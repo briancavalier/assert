@@ -4,11 +4,14 @@ import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'
 export { AssertionError }
 
-const sameRef = (a, b) => a === b
-
+// Base assertion function.  Lifts a failure message and binary
+// predicate to an assertion.
 const _where = curry4((m, p2, a, b) =>
   p2(a, b) === true ? b
     : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b))
+
+// References comparison helper
+const sameRef = (a, b) => a === b
 
 // Assert a binary predicate holds
 // Given a predicate p, return an assertion that passes if
