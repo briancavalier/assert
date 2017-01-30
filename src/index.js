@@ -72,8 +72,6 @@ const fail1 = (message, actual) =>
 const fail2 = (message, expected, actual) =>
   failAt(fail2, message, expected, actual)
 
-// Throw an AssertionError with the provided message, expected,
-// and actual values.
 // Throw an AssertionError with the provided message.
 // On v8, the call stack will be trimmed at the provided
 // function.
