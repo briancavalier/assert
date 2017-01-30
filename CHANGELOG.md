@@ -1,3 +1,10 @@
+# 3.4.0 (2017-01-30)
+---
+
+## Features
+
+- feat(where): Add where() to lift predicates into assertions (#10) [b1425774](/commits/b142577422d8d1191aae246e2d02f58795e00973)
+
 # 3.3.1 (2017-01-29)
 ---
 
