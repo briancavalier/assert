@@ -1,4 +1,4 @@
-import { curry3, curry4, id } from '@most/prelude'
+import { curry4, id } from '@most/prelude'
 import { AssertionError } from './AssertionError'
 import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'
@@ -6,35 +6,26 @@ export { AssertionError }
 
 const sameRef = (a, b) => a === b
 
-const _where = curry3((m, p, a) =>
-  p(a) === true ? a
-    : fail1(_where, `${m}${inspectPredicate(p)}(${inspect(a)})`, a))
-
-const _where2 = curry4((m, p2, a, b) =>
+const _where = curry4((m, p2, a, b) =>
   p2(a, b) === true ? b
     : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b))
 
-// Assert a unary boolean predicate holds
+// Assert a binary predicate holds
 // Given a predicate p, return an assertion that passes if
-// p(a) holds, and throws AssertionError otherwise
+// p(a, b) holds, and throws AssertionError otherwise
 export const where = _where('failed: ')
-
-// Assert a binary boolean predicate holds
-// Given a predicate p2, return an assertion that passes if
-// p2(a, b) holds, and throws AssertionError otherwise
-export const where2 = _where2('failed: ')
 
 // Value equality: assert structural equivalence
 // If so, return actual, otherwise throw AssertionError
-export const eq = _where2('not equal: ', isEqual)
+export const eq = _where('not equal: ', isEqual)
 
 // Referential equality: assert expected === actual.
 // If so, return actual, otherwise throw AssertionError
-export const is = _where2('not same reference: ', sameRef)
+export const is = _where('not same reference: ', sameRef)
 
 // Assert b is true.
 // If so, return b, otherwise throw AssertionError
-export const assert = _where('not true: ', id)
+export const assert = _where('not true: ', sameRef, true)
 
 // Assert f throws. If so, return the thrown value,
 // otherwise throw AssertionError.
