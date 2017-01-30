@@ -142,6 +142,38 @@ it('rejects with expectedError', () => {
 })
 ```
 
+### where :: (a &rarr; b &rarr; boolean) &rarr; a &rarr; b &rarr; b
+
+Assert that a binary predicate holds.  Lift a binary predicate into an assertion, allowing you to create custom assertions.
+
+```js
+const lessThan = (a, b) => b < a
+where(lessThan, 10, 9) //> 9
+where(lessThan, 10, 11) //> AssertionError
+
+// Partially apply to create custom assertions
+// Custom assertLessThan
+const assertLessThan = where(lessThan)
+assertLessThan(10, 9) //> 9
+assertLessThan(10, 11) //> AssertionError
+Promise.resolve(9).then(assertLessThan(10)) //> fulfilled: 9
+Promise.resolve(11).then(assertLessThan(10)) //> rejected: AssertionError
+
+// Custom assertInstanceOf
+const instanceOf = (a, b) => b instanceof a
+const assertInstanceOf = where(instanceOf)
+
+const t = new Thing()
+assertInstanceOf(Thing, t) //> t
+assertInstanceOf(Thing, {}) //> AssertionError
+
+// Further partially apply Constructor type to create
+// specific assertInstanceOfThing
+const assertInstanceOfThing = assertInstanceOf(Thing) 
+assertInstanceOfThing(t) //> t
+assertInstanceOfThing({}) //> AssertionError
+```
+
 ### fail :: a &rarr; void
 
 Throw an `AssertionError` with the provided message, which will be coerced to a string and used as the error message. Useful for implementing new assertions.

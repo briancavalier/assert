@@ -1,27 +1,34 @@
-import { curry2, id } from '@most/prelude'
+import { curry4, id } from '@most/prelude'
 import { AssertionError } from './AssertionError'
 import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'
 export { AssertionError }
 
+// Base assertion function.  Lifts a failure message and binary
+// predicate to an assertion.
+const _where = curry4((m, p2, a, b) =>
+  p2(a, b) === true ? b
+    : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b))
+
+// References comparison helper
+const sameRef = (a, b) => a === b
+
+// Assert a binary predicate holds
+// Given a predicate p, return an assertion that passes if
+// p(a, b) holds, and throws AssertionError otherwise
+export const where = _where('failed: ')
+
 // Value equality: assert structural equivalence
 // If so, return actual, otherwise throw AssertionError
-export const eq = curry2((expected, actual) =>
-  isEqual(expected, actual)
-    ? actual
-    : fail2(`not equivalent: eq(${inspect2(expected, actual)})`, expected, actual))
+export const eq = _where('not equal: ', isEqual)
 
 // Referential equality: assert expected === actual.
 // If so, return actual, otherwise throw AssertionError
-export const is = curry2((expected, actual) =>
-  expected === actual
-    ? actual
-    : fail2(`not same reference: is(${inspect2(expected, actual)})`, expected, actual))
+export const is = _where('not same reference: ', sameRef)
 
 // Assert b is true.
 // If so, return b, otherwise throw AssertionError
-export const assert = b =>
-  b === true || fail1(`not strictly true: assert(${inspect(b)})`, b)
+export const assert = _where('not true: ', sameRef, true)
 
 // Assert f throws. If so, return the thrown value,
 // otherwise throw AssertionError.
@@ -68,3 +75,6 @@ export const failAt = (fn, message, expected, actual) => {
 
 // Inspect both values and join into string
 const inspect2 = (a, b) => `${inspect(a)}, ${inspect(b)}`
+
+// Try not very hard to return a string representing a predicate
+const inspectPredicate = f => f === sameRef ? 'is' : f === isEqual ? 'eq' : f.name || ''

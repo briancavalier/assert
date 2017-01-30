@@ -1,6 +1,16 @@
 import { describe, it } from 'mocha'
-import { eq, is, assert, throws, rejects, fail, failAt } from '../src/index'
+import { where, eq, is, assert, throws, rejects, fail, failAt } from '../src/index'
 import { AssertionError } from '../src/AssertionError'
+
+describe('where', () => {
+  it('should pass when predicate is true', () => {
+    eq(1, where((a, b) => a === b, 1, 1))
+  })
+
+  it('should fail when predicate is false', () => {
+    throwsAssertionError(where((a, b) => a === b, 1), 2)
+  })
+})
 
 describe('eq', () => {
   it('should pass for equal primitives', () => {
