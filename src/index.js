@@ -1,4 +1,4 @@
-import { curry2, curry3, id } from '@most/prelude'
+import { curry3, curry4, id } from '@most/prelude'
 import { AssertionError } from './AssertionError'
 import isEqual from 'lodash.isequal'
 import inspect from 'object-inspect'

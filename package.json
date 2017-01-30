@@ -50,7 +50,7 @@
     "rollup-plugin-node-resolve": "^2.0.0"
   },
   "dependencies": {
-    "@most/prelude": "^1.4.1",
+    "@most/prelude": "^1.5.0",
     "lodash.isequal": "^4.5.0",
     "object-inspect": "^1.2.1"
   }
