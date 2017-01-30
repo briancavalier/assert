@@ -59,7 +59,7 @@ eq([{ a: 'a' }, { b: 'b' }], [{ a: 'a' }, { b: 'b'}]) //> [{ a: 'a' }, { b: 'b'}
 eq(2, 1) //> AssertionError
 eq([1, 2, 3], [1, 2]) //> AssertionError
 eq({ a: 'a' }, { a: 'b' }) //> AssertionError
-eq([{ a: 'a' }, { b: 'b' }], [{ a: 'a' }, { b: 'b'}]) //> AssertionError
+eq([{ a: 'a' }, { b: 'b' }], [{ a: 'a' }]) //> AssertionError
 ```
 
 ### is :: a &rarr; a &rarr; a
