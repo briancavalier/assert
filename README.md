@@ -142,6 +142,53 @@ it('rejects with expectedError', () => {
 })
 ```
 
+### where :: (a &rarr; boolean) &rarr; a &rarr; a
+
+Assert that a unary predicate holds.  Provides customization: Lift a unary predicate into an assertion, allowing you to create custom assertions.
+
+```js
+const t = new Thing()
+where(x => x instanceof Thing, t) //> t
+where(x => x instanceof Thing, {}) //> AssertionError
+
+// Partially apply to create custom assertions
+const assertIsAThing = where(x => x instanceof Thing)
+assertIsAThing(t) //> t
+assertIsAThing(123) //> AssertionError
+```
+
+### where2 :: (a &rarr; b &rarr; boolean) &rarr; a &rarr; b &rarr; b
+
+Assert that a binary predicate holds.  Provides customization: Lift a binary predicate into an assertion, allowing you to create custom assertions.
+
+```js
+const lessThan = (a, b) => b < a
+where2(lessThan, 10, 9) //> 9
+where2(lessThan, 10, 11) //> AssertionError
+
+// Partially apply to create custom assertions
+// Custom assertLessThan
+const assertLessThan = where2(lessThan)
+assertLessThan(10, 9) //> 9
+assertLessThan(10, 11) //> AssertionError
+Promise.resolve(9).then(assertLessThan(10)) //> fulfilled: 9
+Promise.resolve(11).then(assertLessThan(10)) //> rejected: AssertionError
+
+// Custom assertInstanceOf
+const instanceOf = (a, b) => b instanceof a
+const assertInstanceOf = where2(instanceOf)
+
+const t = new Thing()
+assertInstanceOf(Thing, t) //> t
+assertInstanceOf(Thing, {}) //> AssertionError
+
+// Further partially apply Constructor type to create
+// specific assertInstanceOfThing
+const assertInstanceOfThing = assertInstanceOf(Thing) 
+assertInstanceOfThing(t) //> t
+assertInstanceOfThing({}) //> AssertionError
+```
+
 ### fail :: a &rarr; void
 
 Throw an `AssertionError` with the provided message, which will be coerced to a string and used as the error message. Useful for implementing new assertions.
