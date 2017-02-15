@@ -1,6 +1,6 @@
 module.exports = {
   eslint: {
-    "directories": ["src", "test"]
+    directories: ['src', 'test', '*.js']
   },
   mocha: {
     patterns: [
