@@ -30,7 +30,7 @@ describe('eq', () => {
   })
 
   const a1 = { value: 'a' }
-  const a2 = { value: 'a'}
+  const a2 = { value: 'a' }
   const b = { value: 'b' }
   const c = {}
   const d = { value: 'd', extra: 'test' }
@@ -114,7 +114,7 @@ describe('fail', () => {
     try {
       fail(message)
       fail('Expected AssertionError')
-    } catch(e) {
+    } catch (e) {
       assertIsAssertionError(e)
       eq(message, e.message)
     }
@@ -131,7 +131,7 @@ describe('failAt', () => {
     try {
       test(message)
       fail('Expected AssertionError')
-    } catch(e) {
+    } catch (e) {
       assertIsAssertionError(e)
       eq(message, e.message)
     }
@@ -139,7 +139,7 @@ describe('failAt', () => {
 })
 
 function assertIsAssertionError (e) {
-  if(!(e instanceof AssertionError) || e.name !== 'AssertionError') {
+  if (!(e instanceof AssertionError) || e.name !== 'AssertionError') {
     throw new AssertionError(`expected AssertionError, but threw: ${e.stack}`, assertIsAssertionError)
   }
 
@@ -150,7 +150,7 @@ function throwsAssertionError (f, a) {
   let r
   try {
     r = f(a)
-  } catch(e) {
+  } catch (e) {
     assertIsAssertionError(e)
     return
   }
