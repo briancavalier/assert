@@ -19,6 +19,8 @@ export function rejects<A, E extends Error> (p: Promise<A>): Promise<E>
 
 export function fail<A> (message: A): never
 
+export function failAt <A, B> (fn: Function, message: string, expected: A, actual: B): void
+
 export class AssertionError<A, B> extends Error {
   constructor (message: string, expected?: A, actual?: B, fn?: Function)
 }

@@ -1,16 +1,16 @@
 // @flow
 export type Predicate2<A, B> = (A, B) => boolean
 
-declare export function where<A, B> (p: Predicate2<A, B>, a: A, b: B): B
+declare export function where<A, B> (p: Predicate2<A, B>): (A) => (B) => B
 declare export function where<A, B> (p: Predicate2<A, B>): (A, B) => B
 declare export function where<A, B> (p: Predicate2<A, B>, a: A): (B) => B
-declare export function where<A, B> (p: Predicate2<A, B>): (A) => (B) => B
+declare export function where<A, B> (p: Predicate2<A, B>, a: A, b: B): B
 
-declare export function eq<A> (expected: A, actual: A): A
 declare export function eq<A> (expected: A): (actual: A) => A
+declare export function eq<A> (expected: A, actual: A): A
 
-declare export function is<A> (expected: A, actual: A): A
 declare export function is<A> (expected: A): (actual: A) => A
+declare export function is<A> (expected: A, actual: A): A
 
 declare export function assert (b: boolean): boolean
 
@@ -19,6 +19,8 @@ declare export function throws<E: Error> (f: () => any): E
 declare export function rejects<A, E: Error> (p: Promise<A>): Promise<E>
 
 declare export function fail<A> (message: A): void
+
+declare export function failAt <A, B> (fn: Function, message: string, expected: A, actual: B): void
 
 declare export class AssertionError<A, B> {
   constructor (message: string, expected?: A, actual?: B, fn?: Function): this
