@@ -1,6 +1,15 @@
 // @flow
 import { describe, it } from 'mocha'
-import { where, eq, is, assert, throws, rejects, fail, failAt } from '../src/index'
+import {
+  where,
+  eq,
+  is,
+  assert,
+  throws,
+  rejects,
+  fail,
+  failAt
+} from '../src/index'
 import { AssertionError } from '../src/AssertionError'
 
 describe('where', () => {
@@ -77,7 +86,12 @@ describe('assert', () => {
 describe('throws', () => {
   it('should pass when f throws', () => {
     const e = new Error()
-    is(e, throws(() => { throw e }))
+    is(
+      e,
+      throws(() => {
+        throw e
+      })
+    )
   })
 
   it('should fail when f returns', () => {
@@ -88,13 +102,13 @@ describe('throws', () => {
 describe('rejects', () => {
   it('should pass when p rejects', () => {
     const expected = new Error()
-    return rejects(Promise.reject(expected))
-      .then(is(expected))
+    return rejects(Promise.reject(expected)).then(is(expected))
   })
 
   it('should fail when p fulfills', () => {
-    return rejects(rejects(Promise.resolve()))
-      .then(e => assert(e instanceof AssertionError))
+    return rejects(rejects(Promise.resolve())).then(e =>
+      assert(e instanceof AssertionError)
+    )
   })
 })
 
@@ -128,15 +142,18 @@ describe('failAt', () => {
   })
 })
 
-function assertIsAssertionError <E: Error> (e: E): E {
+function assertIsAssertionError<E: Error> (e: E): E {
   if (!(e instanceof AssertionError) || e.name !== 'AssertionError') {
-    throw new AssertionError(`expected AssertionError, but threw: ${e.stack}`, assertIsAssertionError)
+    throw new AssertionError(
+      `expected AssertionError, but threw: ${e.stack}`,
+      assertIsAssertionError
+    )
   }
 
   return e
 }
 
-function throwsAssertionError <A, B> (f: A => B, a: A): void {
+function throwsAssertionError<A, B> (f: A => B, a: A): void {
   let r
   try {
     r = f(a)
@@ -145,5 +162,8 @@ function throwsAssertionError <A, B> (f: A => B, a: A): void {
     return
   }
 
-  throw new AssertionError(`expected AssertionError, but returned: ${String(r)}`, throwsAssertionError)
+  throw new AssertionError(
+    `expected AssertionError, but returned: ${String(r)}`,
+    throwsAssertionError
+  )
 }

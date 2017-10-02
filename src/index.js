@@ -6,9 +6,12 @@ export { AssertionError }
 
 // Base assertion function.  Lifts a failure message and binary
 // predicate to an assertion.
-const _where = curry4((m, p2, a, b) =>
-  p2(a, b) === true ? b
-    : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b))
+const _where = curry4(
+  (m, p2, a, b) =>
+    p2(a, b) === true
+      ? b
+      : fail2(`${m}${inspectPredicate(p2)}(${inspect2(a, b)})`, a, b)
+)
 
 // References comparison helper
 const sameRef = (a, b) => a === b
@@ -44,8 +47,7 @@ export const throws = f => {
 
 // Assert p rejects.  Return a promise that rejects if p fulfills,
 // and fulfills with p rejects.
-export const rejects = p =>
-  p.then(failRejects, id)
+export const rejects = p => p.then(failRejects, id)
 
 // Throw an assertion error that describes a rejects failure
 const failRejects = x =>
@@ -53,13 +55,11 @@ const failRejects = x =>
 
 // Throw an AssertionError with the provided value, which
 // will be coerced to a string and used as the failure message.
-export const fail = a =>
-  failAt(fail, String(a), undefined, a)
+export const fail = a => failAt(fail, String(a), undefined, a)
 
 // Throw an AssertionError with the provided message, expected,
 // and actual values.
-const fail1 = (message, actual) =>
-  failAt(fail1, message, undefined, actual)
+const fail1 = (message, actual) => failAt(fail1, message, undefined, actual)
 
 // Throw an AssertionError with the provided message, expected,
 // and actual values.
@@ -77,4 +77,5 @@ export const failAt = (fn, message, expected, actual) => {
 const inspect2 = (a, b) => `${inspect(a)}, ${inspect(b)}`
 
 // Try not very hard to return a string representing a predicate
-const inspectPredicate = f => f === sameRef ? 'is' : f === isEqual ? 'eq' : f.name || ''
+const inspectPredicate = f =>
+  f === sameRef ? 'is' : f === isEqual ? 'eq' : f.name || ''

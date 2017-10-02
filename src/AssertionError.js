@@ -8,7 +8,10 @@ export class AssertionError extends Error {
 
     /* istanbul ignore next */
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, typeof fn === 'function' ? fn : AssertionError)
+      Error.captureStackTrace(
+        this,
+        typeof fn === 'function' ? fn : AssertionError
+      )
     }
   }
 }

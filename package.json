@@ -13,7 +13,7 @@
   "scripts": {
     "test": "npm run test:lint && npm run test:unit && npm run test:flow",
     "test:unit": "nyc -s mocha -r buba/register",
-    "test:lint": "standard --verbose | snazzy",
+    "test:lint": "prettier-standard '{src,test}/**/*.js' && standard --verbose '{src,test}/**/*.js' | snazzy",
     "test:flow": "flow check",
     "test:report": "nyc report",
     "ci": "npm run test:lint && npm run test:unit && npm run test:flow && npm run test:report",
@@ -37,6 +37,7 @@
     "flow-bin": "^0.56.0",
     "mocha": "^3.5.3",
     "nyc": "^11.2.1",
+    "prettier-standard": "^7.0.1",
     "rollup": "^0.50.0",
     "rollup-plugin-buble": "^0.16.0",
     "rollup-plugin-commonjs": "^8.2.1",
