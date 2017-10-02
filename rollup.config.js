@@ -1,27 +1,26 @@
 import buble from 'rollup-plugin-buble'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import pkg from './package.json'
 
 export default {
-  entry: 'src/index.js',
+  input: 'src/index.js',
   plugins: [
     buble(),
     commonjs(),
-    nodeResolve({
-      jsnext: true
-    })
+    nodeResolve()
   ],
-  targets: [
+  output: [
     {
-      dest: 'dist/index.js',
+      file: pkg.main,
       format: 'umd',
-      moduleName: 'assert',
-      sourceMap: true
+      name: 'assert',
+      sourcemap: true
     },
     {
-      dest: 'dist/index.es.js',
+      file: pkg.module,
       format: 'es',
-      sourceMap: true
+      sourcemap: true
     }
   ]
 }

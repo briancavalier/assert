@@ -20,6 +20,8 @@ declare export function rejects<A, E: Error> (p: Promise<A>): Promise<E>
 
 declare export function fail<A> (message: A): void
 
+declare export function failAt <A, B> (fn: Function, message: string, expected: A, actual: B): void
+
 declare export class AssertionError<A, B> {
   constructor (message: string, expected?: A, actual?: B, fn?: Function): this
 }

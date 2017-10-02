@@ -1,3 +1,4 @@
+// @flow
 import { describe, it } from 'mocha'
 import { where, eq, is, assert, throws, rejects, fail, failAt } from '../src/index'
 import { AssertionError } from '../src/AssertionError'
@@ -68,19 +69,8 @@ describe('assert', () => {
     assert(assert(true))
   })
 
-  it('should fail for truthy', () => {
-    throwsAssertionError(assert, 1)
-    throwsAssertionError(assert, 'true')
-    throwsAssertionError(assert, {})
-    throwsAssertionError(assert, [])
-  })
-
   it('should fail for false and falsy', () => {
     throwsAssertionError(assert, false)
-    throwsAssertionError(assert, 0)
-    throwsAssertionError(assert, '')
-    throwsAssertionError(assert, null)
-    throwsAssertionError(assert, undefined)
   })
 })
 
@@ -138,7 +128,7 @@ describe('failAt', () => {
   })
 })
 
-function assertIsAssertionError (e) {
+function assertIsAssertionError <E: Error> (e: E): E {
   if (!(e instanceof AssertionError) || e.name !== 'AssertionError') {
     throw new AssertionError(`expected AssertionError, but threw: ${e.stack}`, assertIsAssertionError)
   }
@@ -146,7 +136,7 @@ function assertIsAssertionError (e) {
   return e
 }
 
-function throwsAssertionError (f, a) {
+function throwsAssertionError <A, B> (f: A => B, a: A): void {
   let r
   try {
     r = f(a)
@@ -155,5 +145,5 @@ function throwsAssertionError (f, a) {
     return
   }
 
-  throw new AssertionError(`expected AssertionError, but returned: ${r}`, throwsAssertionError)
+  throw new AssertionError(`expected AssertionError, but returned: ${String(r)}`, throwsAssertionError)
 }
